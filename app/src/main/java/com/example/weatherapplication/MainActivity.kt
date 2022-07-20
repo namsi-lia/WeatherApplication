@@ -3,41 +3,49 @@ package com.example.weatherapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.weatherapplication.ui.theme.WeatherApplicationTheme
+import androidx.activity.viewModels
 
+import androidx.compose.runtime.*
+
+import com.example.weatherapplication.ui.theme.WeatherApplicationTheme
+import com.example.weatherapplication.ui.theme.ui.LocationNotAvailable
+import com.example.weatherapplication.ui.theme.ui.WeatherviewModel
+import com.example.weatherapplication.ui.theme.ui.screenWeather
+import com.example.weatherapplication.ui.theme.ui.utils.MyUpdatedLocationArgs
+import com.example.weatherapplication.ui.theme.ui.utils.rememberMyUpdatedLocation
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+@ExperimentalPermissionsApi
 class MainActivity : ComponentActivity() {
+    private val viewModel: WeatherviewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            WeatherApplicationTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
+            WeatherApplicationTheme{
+                var shouldRequestLocationPermission by remember {
+                    mutableStateOf(false)
                 }
+                val args = MyUpdatedLocationArgs(
+                    onMyUpdatedLocationChanged = viewModel::setLocation,
+                    shouldRequestPermission = shouldRequestLocationPermission,
+                ) {
+
+                }
+                val myUpdatedLocation = rememberMyUpdatedLocation(args = args)
+                if (myUpdatedLocation.isLocationPermissionGranted) {
+                    screenWeather(viewModel)
+                } else {
+                    LocationNotAvailable(onContinueClick = {
+                        shouldRequestLocationPermission = true
+                    })
+                }
+
+
             }
         }
-    }
-}
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    WeatherApplicationTheme {
-        Greeting("Android")
     }
 }

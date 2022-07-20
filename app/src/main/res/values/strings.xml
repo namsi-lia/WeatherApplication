@@ -1,4 +1,23 @@
 <resources>
     <string name="app_name">WeatherApplication</string>
     <string name="title_activity_screen_weather">screenWeather</string>
+    <string name="windNow">%dkm\</string>
+    <string name="humidity">%d%%</string>
+    <string name="precipitation">%d%%</string>
+    <string name="current_wether_screen">Day</string>
+    <string name="temperature_degrees">%d°</string>
+    <string name="Temperature">Temperature</string>
+    <string name="title_activity_location_permision">LocationPermision</string>
+    <string name="location_permission_content_description">Location Icon</string>
+    <string name="location_permission_description">Please allow the app to access your location.</string>
+    <string name="location_permission_continue">OK</string>
+    <string name="location_not_available">The app needs your permission to access your current location to display the weather for your location.</string>
+    <string name="location_continue">OK</string>
+    <string name="Sunset">sunset</string>
+    <string name="NightTemp">nighttemp</string>
+    <string name="request_permission_button_label">REQUEST PERMISSION</string>
+    <string name="never_show_again_button_label">NEVER SHOW AGAIN</string>
+    <string name="location_permission_rationale">Location service is important for effective shop recommendation by this app. Please grant the permission.</string>
+    <string name="title_activity_weather_screen_view">weatherScreenView</string>
+
 </resources>
